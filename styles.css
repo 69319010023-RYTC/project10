@@ -1,0 +1,839 @@
+/* ==========================================================================
+   CSS ดีไซน์ระบบ Cosmic Animal Odyssey (ธีมกาแลกซี่โทนสว่าง)
+   ========================================================================== */
+
+:root {
+  /* โทนสีกาแลกซี่พาสเทลสว่าง */
+  --bg-gradient-start: #f5f3ff;   /* สีม่วงลาเวนเดอร์สว่าง */
+  --bg-gradient-mid: #f0fdfa;     /* สีฟ้าน้ำทะเลสว่าง */
+  --bg-gradient-end: #fdf2f8;     /* สีชมพูคอสมิกสว่าง */
+  
+  --primary-color: #6366f1;       /* สีน้ำเงินคอสมิกหลัก */
+  --primary-glow: rgba(99, 102, 241, 0.4);
+  --secondary-color: #ec4899;     /* สีชมพูเนบิวลา */
+  --secondary-glow: rgba(236, 72, 153, 0.4);
+  
+  --text-main: #1e1b4b;           /* สีข้อความน้ำเงินเข้มจัด */
+  --text-muted: #4f46e5;          /* สีข้อความรอง */
+  
+  /* ตัวแปรของ Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-shadow: rgba(31, 38, 135, 0.08);
+  
+  /* สีการ์ดดวงดาว */
+  --card-back-grad-start: #e0e7ff; /* หลังการ์ด: ครามพาสเทล */
+  --card-back-grad-end: #c7d2fe;
+  --card-back-border: #818cf8;
+  --card-front-bg: rgba(255, 255, 255, 0.85);
+  --card-front-border: #f472b6;
+  
+  --font-thai: 'Kanit', sans-serif;
+  --font-eng: 'Outfit', sans-serif;
+}
+
+/* รีเซ็ตดีไซน์พื้นฐาน */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /* ลบแถบสีฟ้าเวลาแตะปุ่มในมือถือ */
+}
+
+body {
+  font-family: var(--font-thai);
+  color: var(--text-main);
+  background-color: var(--bg-gradient-start);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.font-outfit {
+  font-family: var(--font-eng);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   ฉากหลังกาแลกซี่และเนบิวลาท่องอวกาศ (Cosmic Background)
+   ========================================================================== */
+.galaxy-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+  overflow: hidden;
+}
+
+/* เนบิวลาเรืองแสงสีพาสเทลขนาดใหญ่ */
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  animation: floatNebula 25s infinite alternate ease-in-out;
+}
+
+.nebula-pink {
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, rgba(253, 164, 186, 0.7) 0%, rgba(244, 114, 182, 0.2) 80%);
+  top: -10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.nebula-blue {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(165, 180, 252, 0.7) 0%, rgba(129, 140, 248, 0.2) 80%);
+  bottom: -15%;
+  right: 5%;
+  animation-delay: -5s;
+}
+
+.nebula-yellow {
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, rgba(253, 230, 138, 0.6) 0%, rgba(251, 191, 36, 0.1) 80%);
+  top: 35%;
+  right: 25%;
+  animation-delay: -10s;
+}
+
+@keyframes floatNebula {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4vw, -3vw) scale(1.1); }
+  100% { transform: translate(-3vw, 4vw) scale(0.9); }
+}
+
+/* ดวงดาวในพื้นหลัง */
+.space-star {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 1px #fff;
+  opacity: 0;
+  animation: pulseStar 4s infinite ease-in-out;
+}
+
+@keyframes pulseStar {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50% { opacity: 0.85; transform: scale(1.2); }
+}
+
+/* ==========================================================================
+   องค์ประกอบและดีไซน์แบบ Glassmorphism
+   ========================================================================== */
+.glassmorphism {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  border-radius: 24px;
+}
+
+.cosmic-card {
+  padding: 32px;
+  text-align: center;
+  max-width: 550px;
+  width: 90%;
+  margin: auto;
+  border-radius: 32px;
+  box-shadow: 0 20px 45px rgba(99, 102, 241, 0.15);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cosmic-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   โครงสร้างหน้าจอแอปพลิเคชัน (Screen Layouts)
+   ========================================================================== */
+.game-container {
+  width: 100%;
+  max-width: 1080px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen.active {
+  display: flex;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   1. หน้าต้อนรับ/เริ่มต้น (Start Screen)
+   ========================================================================== */
+.space-ship-animation {
+  font-size: 5rem;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: floatShip 4s infinite ease-in-out;
+}
+
+@keyframes floatShip {
+  0%, 100% { transform: translateY(0) rotate(5deg); }
+  50% { transform: translateY(-15px) rotate(-5deg); }
+}
+
+.game-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.game-title .eng-title {
+  font-family: var(--font-eng);
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, var(--primary-color) 20%, var(--secondary-color) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.game-title .th-title {
+  font-size: 1.35rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.game-intro {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+
+.best-score-badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   2. หน้าเล่นเกม & แผงควบคุม (Play Screen & HUD)
+   ========================================================================== */
+.game-hud {
+  width: 100%;
+  max-width: 900px;
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px var(--glass-shadow);
+}
+
+.hud-item {
+  text-align: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.hud-value {
+  font-size: 1.7rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.hud-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   ปุ่มและการควบคุม (Buttons & Controls)
+   ========================================================================== */
+.btn {
+  font-family: var(--font-thai);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #4f46e5 100%);
+  color: #ffffff;
+  padding: 16px 36px;
+  font-size: 1.15rem;
+  border-radius: 50px;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(99, 102, 241, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+.btn-glow {
+  position: relative;
+}
+
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 54px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  z-index: -1;
+  opacity: 0.4;
+  filter: blur(8px);
+  transition: all 0.3s;
+}
+
+.btn-glow:hover::after {
+  filter: blur(12px);
+  opacity: 0.8;
+}
+
+.btn-secondary {
+  background: rgba(30, 27, 75, 0.08);
+  border: 1px solid rgba(30, 27, 75, 0.15);
+  color: var(--text-main);
+  padding: 14px 28px;
+  font-size: 1rem;
+  border-radius: 50px;
+}
+
+.btn-secondary:hover {
+  background: rgba(30, 27, 75, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.btn-icon:hover {
+  background: #ffffff;
+  color: var(--primary-color);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+}
+
+.btn-icon .icon {
+  font-size: 1.25rem;
+}
+
+/* ==========================================================================
+   กระดานเกมและการสร้างการ์ด (Grid System & Card Component)
+   ========================================================================== */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  perspective: 1000px; /* จำเป็นสำหรับเอฟเฟกต์การพลิก 3D */
+}
+
+/* ตัวการ์ดแบบ 3 มิติ */
+.card {
+  aspect-ratio: 3 / 4; /* สัดส่วนการ์ดแนวตั้งยอดนิยม */
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  cursor: pointer;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(31, 38, 135, 0.05);
+}
+
+.card:hover:not(.flipped):not(.matched) {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.18), 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+/* เมื่อพลิกการ์ด */
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* เมื่อจับคู่ถูกสำเร็จ */
+.card.matched {
+  transform: rotateY(180deg) scale(0.95);
+  cursor: default;
+}
+
+.card.matched .card-front {
+  border-color: #10b981; /* ขอบเขียวเมื่อแมทช์ */
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  opacity: 0.9;
+  animation: pulseSuccess 0.5s ease-out;
+}
+
+@keyframes pulseSuccess {
+  0% { transform: scale(1); filter: brightness(1.2); }
+  50% { transform: scale(1.08); filter: brightness(1.4); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* หน้าและหลังการ์ด */
+.card-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* ช่วยให้การสลับมองเห็นราบรื่นขึ้น */
+}
+
+/* ด้านหลังการ์ด (หงายขึ้นตอนเริ่ม - คว่ำภาพสัตว์ไว้) */
+.card-back {
+  background: linear-gradient(135deg, var(--card-back-grad-start) 0%, var(--card-back-grad-end) 100%);
+  border-color: var(--card-back-border);
+  position: relative;
+  transform: rotateY(0deg); /* กำหนดระนาบ 3 มิติเริ่มต้น */
+}
+
+/* ดีไซน์ลายทางดาราศาสตร์ข้างหลังการ์ด */
+.card-back::before {
+  content: '✨';
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  animation: glowSymbol 3s infinite ease-in-out;
+}
+
+.card-back::after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  border: 1px dashed rgba(99, 102, 241, 0.3);
+  border-radius: 50%;
+  animation: rotateRings 20s infinite linear;
+}
+
+@keyframes glowSymbol {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.5)); }
+}
+
+@keyframes rotateRings {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ด้านหน้าการ์ด (โชว์รูปสัตว์เมื่อคลิก) */
+.card-front {
+  background: var(--card-front-bg);
+  border-color: var(--card-front-border);
+  transform: rotateY(180deg);
+  font-size: 3rem;
+  box-shadow: inset 0 0 10px rgba(236, 72, 153, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- เพิ่มเติมตรรกะความคุมการซ่อน/แสดงด้วยความโปร่งใส เพื่อป้องกันบั๊กแสดงผลของเบราว์เซอร์ --- */
+.card:not(.flipped):not(.matched) .card-front {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.card:not(.flipped):not(.matched) .card-back {
+  opacity: 1;
+  visibility: visible;
+}
+
+.card.flipped .card-front,
+.card.matched .card-front {
+  opacity: 1;
+  visibility: visible;
+}
+
+.card.flipped .card-back,
+.card.matched .card-back {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* แอนิเมชันสร้างสปาร์กเกิลรอบๆ เมื่อจับคู่สำเร็จ */
+.match-sparkle {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.2rem;
+  z-index: 5;
+  animation: sparkleFly 0.8s forwards cubic-bezier(0.12, 0.89, 0.32, 0.94);
+}
+
+@keyframes sparkleFly {
+  0% { transform: translate(0, 0) scale(0.2); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1.2); opacity: 0; }
+}
+
+/* ==========================================================================
+   3. หน้าต่างชนะเกมแบบ Overlay Modal
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 27, 75, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 500px;
+  padding: 40px 30px;
+  text-align: center;
+  transform: scale(0.8) translateY(30px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.celebration-emoji {
+  font-size: 4.5rem;
+  margin-bottom: 12px;
+  animation: jumpBounce 2s infinite ease-in-out;
+}
+
+@keyframes jumpBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.08); }
+}
+
+.victory-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.victory-subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.stars-rating {
+  font-size: 2.4rem;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.stars-rating span {
+  opacity: 0.3;
+  transform: scale(0.7);
+  display: inline-block;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s;
+}
+
+.stars-rating span.filled {
+  opacity: 1;
+  transform: scale(1.2);
+  color: #fbbf24;
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+  animation: starPop 0.5s forwards;
+}
+
+@keyframes starPop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.4); }
+  100% { transform: scale(1.2); }
+}
+
+.victory-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255,255,255,0.7);
+  padding: 12px 8px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.new-record-banner {
+  background: linear-gradient(90deg, #fcd34d, #f472b6);
+  color: #1e1b4b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+  display: inline-block;
+  box-shadow: 0 5px 15px rgba(244, 114, 182, 0.3);
+  animation: shineRecord 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes shineRecord {
+  from { transform: scale(1); filter: brightness(1); }
+  to { transform: scale(1.05); filter: brightness(1.15); }
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.modal-actions .btn {
+  width: 100%;
+  max-width: 280px;
+}
+
+/* ==========================================================================
+   การปรับตามขนาดหน้าจอ (Responsiveness / Media Queries)
+   ========================================================================== */
+
+/* หน้าจอกลาง/แท็บเล็ตขนาดเล็ก (Tablet / Large Mobile) */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 12px;
+  }
+  
+  .game-title .eng-title {
+    font-size: 2.2rem;
+  }
+  
+  .game-title .th-title {
+    font-size: 1.15rem;
+  }
+  
+  .space-ship-animation {
+    font-size: 4rem;
+  }
+  
+  .game-hud {
+    padding: 10px 18px;
+    margin-bottom: 16px;
+  }
+  
+  .hud-value {
+    font-size: 1.4rem;
+  }
+  
+  .btn-icon {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .btn-icon .icon {
+    font-size: 1.1rem;
+  }
+
+  .game-grid {
+    grid-template-columns: repeat(4, 1fr); /* ปรับเป็น 4 คอลัมน์ x 6 แถว สำหรับแท็บเล็ตและมือถือแนวตั้ง */
+    gap: 10px;
+    max-width: 520px;
+  }
+  
+  .card {
+    border-radius: 12px;
+  }
+  
+  .card-face {
+    border-radius: 12px;
+  }
+  
+  .card-front {
+    font-size: 2.3rem;
+  }
+  
+  .card-back::before {
+    font-size: 1.7rem;
+  }
+}
+
+/* หน้าจอสมาร์ตโฟนขนาดเล็กมาก (Small Mobile <= 400px) */
+@media (max-width: 400px) {
+  .game-container {
+    padding: 8px;
+  }
+  
+  .game-hud {
+    padding: 8px 12px;
+    border-radius: 16px;
+  }
+  
+  .hud-value {
+    font-size: 1.2rem;
+  }
+  
+  .hud-label {
+    font-size: 0.75rem;
+  }
+  
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .btn-icon .icon {
+    font-size: 0.95rem;
+  }
+  
+  .game-grid {
+    gap: 8px;
+  }
+  
+  .card {
+    border-radius: 10px;
+  }
+  
+  .card-face {
+    border-radius: 10px;
+    border-width: 1.5px;
+  }
+  
+  .card-front {
+    font-size: 2rem;
+  }
+  
+  .card-back::before {
+    font-size: 1.4rem;
+  }
+  
+  .modal-content {
+    padding: 24px 16px;
+  }
+  
+  .victory-title {
+    font-size: 1.6rem;
+  }
+  
+  .stars-rating {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+  
+  .victory-stats-grid {
+    gap: 8px;
+  }
+  
+  .stat-value {
+    font-size: 1rem;
+  }
+}

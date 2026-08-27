@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Animal Odyssey - ผจญภัยท่องกาแลกซี่คู่สัตว์อวกาศ</title>
+  <!-- Google Fonts: ใช้ Kanit สำหรับภาษาไทยที่ทันสมัย และ Outfit สำหรับอารมณ์อวกาศกึ่งสากล -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ตัวละครดาวตกและเนบิวลาพาสเทลสะท้อนแสงในพื้นหลัง -->
+  <div class="galaxy-background">
+    <div class="nebula nebula-pink"></div>
+    <div class="nebula nebula-blue"></div>
+    <div class="nebula nebula-yellow"></div>
+    <div id="stars-container"></div>
+  </div>
+
+  <!-- CONTAINER หลักของแอปพลิเคชัน -->
+  <main class="game-container">
+    
+    <!-- 1. หน้าจอหลักก่อนเริ่มเล่น (Start Screen) -->
+    <section id="start-screen" class="screen active">
+      <div class="cosmic-card glassmorphism start-card">
+        <div class="space-ship-animation">🛸</div>
+        <h1 class="game-title">
+          <span class="eng-title">Cosmic Animal Odyssey</span>
+          <span class="th-title">ผจญภัยท่องกาแลกซี่คู่สัตว์อวกาศ</span>
+        </h1>
+        <p class="game-intro">
+          ยินดีต้อนรับสู่อภิมหาดาราจักรแห่งความน่ารัก! สัตว์อวกาศทั้ง 12 สายพันธุ์ได้กระจัดกระจายหลงทางอยู่ท่ามกลางกลุ่มดวงดาวระยิบระยับ มาร่วมออกเดินทางสำรวจและจับคู่พวกมันให้ปลอดภัยกันเถอะ!
+        </p>
+        
+        <!-- สถิติดีที่สุดที่บันทึกไว้ -->
+        <div class="best-score-badge" id="best-score-display">
+          <span>🏆 สถิติดีที่สุด: </span>
+          <span id="best-stats">ไม่มีข้อมูล</span>
+        </div>
+
+        <button id="btn-start-game" class="btn btn-primary btn-glow">
+          เริ่มออกเดินทางผจญภัย 🚀
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. หน้าจอเล่นเกม (Game Play Screen) -->
+    <section id="play-screen" class="screen">
+      
+      <!-- แผงควบคุมและข้อมูลด้านบน (HUD Dashboard) -->
+      <header class="game-hud glassmorphism">
+        <div class="hud-item flex-column">
+          <span class="hud-label">คะแนน</span>
+          <span id="score-val" class="hud-value font-outfit">0</span>
+        </div>
+        
+        <div class="hud-item flex-column">
+          <span class="hud-label">เวลาที่ใช้</span>
+          <span id="timer-val" class="hud-value font-outfit">00:00</span>
+        </div>
+
+        <div class="hud-item flex-column">
+          <span class="hud-label">จำนวนที่เปิด</span>
+          <span id="moves-val" class="hud-value font-outfit">0</span>
+        </div>
+
+        <div class="hud-actions">
+          <button id="btn-sound-toggle" class="btn btn-icon" title="เปิด/ปิดเสียง">
+            <span class="icon">🔊</span>
+          </button>
+          <button id="btn-reset-game" class="btn btn-icon" title="เริ่มเกมใหม่">
+            <span class="icon">🔄</span>
+          </button>
+          <button id="btn-back-home" class="btn btn-icon" title="กลับหน้าแรก">
+            <span class="icon">🏠</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- กระดานการ์ด 24 ใบ -->
+      <div id="game-grid" class="game-grid">
+        <!-- การ์ด 24 ใบจะถูกสร้างแบบ Dynamic ผ่าน javascript -->
+      </div>
+    </section>
+
+    <!-- 3. หน้าต่างป๊อปอัปเมื่อชนะเกม (Victory Modal Overlay) -->
+    <section id="victory-modal" class="modal-overlay">
+      <div class="modal-content glassmorphism">
+        <div class="celebration-emoji">🎉</div>
+        <h2 class="victory-title">ภารกิจสำเร็จลุล่วง!</h2>
+        <p class="victory-subtitle">คุณช่วยสัตว์อวกาศทั้งหมดกลับบ้านได้อย่างปลอดภัย</p>
+        
+        <!-- การให้คะแนนดวงดาว -->
+        <div class="stars-rating" id="stars-rating">
+          <span>⭐</span><span>⭐</span><span>⭐</span>
+        </div>
+
+        <div class="victory-stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">เวลาทั้งหมด</div>
+            <div id="final-time" class="stat-value font-outfit">00:00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">จำนวนที่เปิดการ์ด</div>
+            <div id="final-moves" class="stat-value font-outfit">0 ครั้ง</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">คะแนนที่ทำได้</div>
+            <div id="final-score" class="stat-value font-outfit">0</div>
+          </div>
+        </div>
+
+        <div class="new-record-banner" id="new-record-banner" style="display: none;">
+          ☄️ ทุบสถิติใหม่ของกาแลกซี่! ☄️
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-play-again" class="btn btn-primary btn-glow">
+            ออกเดินทางอีกครั้ง 🛸
+          </button>
+          <button id="btn-home-victory" class="btn btn-secondary">
+            กลับหน้าหลัก 🏠
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
